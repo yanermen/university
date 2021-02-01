@@ -1,9 +1,11 @@
-FROM python:3.8
-MAINTAINER Erik Abrahamyan
-ENV PYTHONUNBUFFERED=1
-ENV PROJECT_DIR /home/hello/Projects/university/
-WORKDIR ${PROJECT_DIR}
-COPY Pipfile Pipfile.lock ${PROJECT_DIR}
+FROM ubuntu
+MAINTAINER Erik Abrahamyan <yanermen@gmail.com>
+RUN apt-get update && apt-get install -y
+RUN mkdir university
+WORKDIR /university
+COPY ./ ./
+RUN apt-get install -y python3-pip
+RUN apt-get install -y python3
 RUN python3 -m pip install pipenv
 RUN pipenv install --system --deploy
-COPY . /home/hello/Projects/university/
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
